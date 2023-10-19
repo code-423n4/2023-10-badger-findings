@@ -1,8 +1,8 @@
-# [Sponsorname] Audit
+# BadgerDAO eBTC Audit
 
 Unless otherwise discussed, this repo will be made public after audit completion, sponsor review, judging, and issue mitigation window.
 
-**Contributors to this repo:** prior to report publication, please review the [Agreements & Disclosures](/issues/1) issue.
+**Contributors to this repo:** prior to report publication, please review the [Agreements & Disclosures](https://github.com/code-423n4/2023-10-badger-findings/issues/1) issue.
 
 ---
 
