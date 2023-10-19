@@ -1,4 +1,4 @@
-# BadgerDAO eBTC Audit
+# Badger eBTC Audit + Certora Formal Verification
 
 Unless otherwise discussed, this repo will be made public after audit completion, sponsor review, judging, and issue mitigation window.
 
