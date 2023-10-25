@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "debo",
+  "risk": "2",
+  "title": "[M-01] Deprecated SafeApprove function in the LeverageMacroBase contract",
+  "issueId": 2,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/2"
+}
