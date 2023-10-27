@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "sbaudh6",
+  "risk": "3",
+  "title": "Logical Error in Smart Contract leads to Bypass the flashLoan Fee requirement",
+  "issueId": 11,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/11"
+}
