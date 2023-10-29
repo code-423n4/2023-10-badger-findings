@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "wisdomn_",
+  "risk": "2",
+  "title": "The unchecked loop increment in the for loops of function execute should be removed.  ",
+  "issueId": 19,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/19"
+}
