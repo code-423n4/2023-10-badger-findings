@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "AISec",
+  "risk": "2",
+  "title": "Avoid the use of increaseAllowance and decreaseAllowance from ERC20 that are recently deprecated",
+  "issueId": 21,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/21"
+}
