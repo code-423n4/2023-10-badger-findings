@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "AISec",
+  "risk": "2",
+  "title": "Unsafe downcast",
+  "issueId": 20,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/20"
+}
