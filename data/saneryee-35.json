@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "saneryee",
+  "risk": "3",
+  "title": "Inaccurate `sortedCdps` List Due to Lack of Reordering in `_syncAccounting` Function",
+  "issueId": 35,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/35"
+}
