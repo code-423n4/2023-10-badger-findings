@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "wisdomn_",
+  "risk": "3",
+  "title": "Wrong type casting of  cachedSystemDebt will result in an underflow when system debt is less than _amount.",
+  "issueId": 44,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/44"
+}
