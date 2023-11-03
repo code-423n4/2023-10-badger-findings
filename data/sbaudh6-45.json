@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "sbaudh6",
+  "risk": "3",
+  "title": "Incorrect Keccak256()  hash Value assigned in State Variable Private constants Leads to  code break issue ",
+  "issueId": 45,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/45"
+}
