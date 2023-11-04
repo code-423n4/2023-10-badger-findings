@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Logical",
+  "risk": "2",
+  "title": "CdpManager : _closeCdpByRedemption decreases system debt by zero, therefore making it redundant",
+  "issueId": 50,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/50"
+}
