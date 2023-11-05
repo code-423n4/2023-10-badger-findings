@@ -1,0 +1,5 @@
+## A redundancy in the code
+The `BorrowerOperations._openCdp()` is responsible for opening CDPs, managing collateral, and ensuring that certain financial ratios are maintained to protect the system's stability and security.
+Inside the function the `variable vars.netStEthBalance` is initially checked to be greater than or equal to a minimum value with `_requireAtLeastMinNetStEthBalance(vars.netStEthBalance)`, and then later in the code, it's checked again with `require(vars.netStEthBalance > 0,"BorrowerOperations: zero collateral for openCdp()!")`.
+
+The issue here is that the first check already ensures that `vars.netStEthBalance` is greater than or equal to the minimum required value, so the second check `require(vars.netStEthBalance > 0,"BorrowerOperations: zero collateral for openCdp()!")` is indeed redundant. It doesn't add any additional protection or validation because if the first check passes, the value is guaranteed to be greater than zero.
