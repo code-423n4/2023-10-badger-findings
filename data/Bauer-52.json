@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Bauer",
+  "risk": "2",
+  "title": "Signature malleability issue",
+  "issueId": 52,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/52"
+}
