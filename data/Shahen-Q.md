@@ -5,3 +5,5 @@
 ```
 require(msg.sender == _borrower);
 ```
+
+https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/BorrowerOperations.sol#L706
