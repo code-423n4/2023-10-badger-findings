@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "SpicyMeatball",
+  "risk": "2",
+  "title": "If user opens a CDP with LeverageMacroReference he will be unable to claim surplus if that CDP was liquidated or redeemed",
+  "issueId": 69,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/69"
+}
