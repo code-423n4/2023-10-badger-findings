@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "wangxx2026",
+  "risk": "3",
+  "title": "CDP cannot be closed in Recovery Mode, which is not conducive to restoring the system to safe mode.",
+  "issueId": 65,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/65"
+}
