@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "T1MOH",
+  "risk": "2",
+  "title": "Liquidatable position can be redeemed in Recovery Mode",
+  "issueId": 66,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/66"
+}
