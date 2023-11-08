@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Daniel526",
+  "risk": "2",
+  "title": "Borrowers initiating the flashLoan function with insufficient allowance are virtually guaranteed to experience a transaction revert.",
+  "issueId": 80,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/80"
+}
