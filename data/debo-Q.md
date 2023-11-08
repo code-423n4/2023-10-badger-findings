@@ -436,3 +436,147 @@ This script will send a transaction to the `burn` function in your EBTCToken con
 VS Code.
 ## Recommended Mitigation Steps
 Consider adding access control modifiers to the burn function to prevent another user from burning their tokens. The burn function should use msg.sender in the _from argument.
+## [L-05] Deprecated safe approve function in the LeverageReferenceMacroBase contract
+## Impact
+The OpenZeppelin's safeApprove() function is obsolete and not to be adopted because of its vulnerability that is the same as the approve() function flaw called front running or sandwich hacks.
+Losses to Users: The main linked impact is upon users who may be victim to front running. 
+Users might be affected by economic shortfall while users' transactions get front-run by hackers, making them to pay more gas fees or get incorrect prices.
+There is no way to safely decrease or increase the amount of the token as the owner can only be the contract.
+The recipient can exploit this by pretending to be the sender and sending token as the sender to themselves, the attacker or malicious recipient. 
+Also, if the sender updates the amount they are trying to send then the malicious recipient can withdraw both amounts from the sender's account.
+Henceforth a front-running attack on the ERC20 token.
+Hence the function can front-run by manipulating the approve function.
+
+## Proof of Concept
+**Vulnerable SafeApprove function**
+```sol
+// ln 398-431
+    function _doSwap(SwapOperation memory swapData) internal {
+        // Ensure call is safe
+        // Block all system contracts
+        _ensureNotSystem(swapData.addressForSwap);
+
+
+        // Exact approve
+        // Approve can be given anywhere because this is a router, and after call we will delete all approvals
+        IERC20(swapData.tokenForSwap).safeApprove(
+            swapData.addressForApprove,
+            swapData.exactApproveAmount
+        );
+
+
+        // Call and perform swap
+        // NOTE: Technically approval may be different from target, something to keep in mind
+        // Call target are limited
+        // But technically you could approve w/e you want here, this is fine because the contract is a router and will not hold user funds
+        (bool success, ) = excessivelySafeCall(
+            swapData.addressForSwap,
+            gasleft(),
+            0,
+            0,
+            swapData.calldataForSwap
+        );
+        require(success, "Call has failed");
+
+
+        // Approve back to 0
+        // Enforce exact approval
+        // Can use max because the tokens are OZ
+        // val -> 0 -> 0 -> val means this is safe to repeat since even if full approve is unused, we always go back to 0 after
+        IERC20(swapData.tokenForSwap).safeApprove(swapData.addressForApprove, 0);
+
+
+        // Do the balance checks after the call to the aggregator
+        _doSwapChecks(swapData.swapChecks);
+    }
+```
+**Manual POC**
+**Safe Approve Function**
+The safeApprove() function takes control of the current funds even if the customer already utilised it or didn't, hence no chance to elevate or reduce funds by a particular value holistically but only in the case that the token possessor is the smart contract, not the account address.
+Which potentially leads to misconduct by a token recipient when the malicious recipient attempt the transfer of particular tokens out of the victim's account who is sending it.
+At the same time, it is possible that the sender makes a decision to update the amount and calls an extra approve transaction, and then the recipient is able to see this transaction prior to it's being mined and has the ability to take the tokens from the two transactions, hence, illegally taking tokens from the pending and non pending transactions. 
+This is called front-running attack within the ERC20 safeApprove method.
+The method safeApprove is possibly front-run by misusing the _doSwap method.
+
+To create a web3 POC for the deprecated `safeApprove` function in the `LeverageMacroBase` contract within the `_doSwap` function, you need to use the appropriate Ethereum libraries and contract interfaces. 
+Below is a simplified example in JavaScript using web3.js to demonstrate how you can interact with the contract and its functions. 
+Make sure to replace the placeholders with the actual contract address and ABI.
+
+```javascript
+const Web3 = require('web3');
+const { abi } = require('./LeverageMacroBase.sol'); // Replace with the actual ABI file
+const contractAddress = '0xYourContractAddress'; // Replace with the actual contract address
+const senderAddress = '0xYourSenderAddress'; // Replace with your Ethereum address
+const senderPrivateKey = '0xYourPrivateKey'; // Replace with your private key
+
+const web3 = new Web3('https://mainnet.infura.io/v3/your-infura-project-id'); // Replace with your Infura endpoint
+
+async function executeSwap() {
+  try {
+    const contract = new web3.eth.Contract(abi, contractAddress);
+
+    // SwapOperation parameters (replace with actual values)
+    const swapData = {
+      addressForSwap: '0xSwapTargetAddress',
+      tokenForSwap: '0xTokenForSwapAddress',
+      addressForApprove: '0xApproveAddress',
+      exactApproveAmount: '1000000000000000000', // 1 ETH in wei
+      calldataForSwap: '0xYourCalldataForSwap',
+      swapChecks: '0xYourSwapChecks',
+    };
+
+    const gas = 2000000; // Adjust the gas limit accordingly
+
+    // Ensure call is safe
+    // Block all system contracts
+    // You'll need to implement the _ensureNotSystem function
+
+    // Exact approve
+    // Approve can be given anywhere because this is a router, and after the call, we will delete all approvals
+    await contract.methods.safeApprove(
+      swapData.addressForApprove,
+      swapData.exactApproveAmount
+    ).send({
+      from: senderAddress,
+      gas,
+    });
+
+    // Call and perform swap
+    const tx = await contract.methods._doSwap(swapData).send({
+      from: senderAddress,
+      gas,
+    });
+
+    // Check if the transaction was successful
+    if (tx.status) {
+      console.log('Swap successful');
+    } else {
+      console.log('Swap failed');
+    }
+
+    // Approve back to 0
+    await contract.methods.safeApprove(swapData.addressForApprove, '0').send({
+      from: senderAddress,
+      gas,
+    });
+
+    // Do the balance checks after the call to the aggregator
+    // You'll need to implement the _doSwapChecks function
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+executeSwap();
+```
+
+Please make sure to replace the placeholders with actual values and customize the gas limit and any additional functions like `_ensureNotSystem` and `_doSwapChecks` based on your specific contract implementation. Also, ensure that you have an Ethereum account with enough balance to cover gas costs and securely manage your private key.
+
+## Tools Used
+VS Code.
+## Recommended Mitigation Steps
+One should adopt the safeIncreaseAllowance() or safeDecreaseAllowance rather than safeApprove().
+Just utilise the safeApprove method of the ERC/BEP standard to update the allowed value to 0 or from 0 (wait until the transaction is committed and approved).
+Token possessor must confirm the first transaction has been mined from N to 0, that is, that the sender did not transfer a part of N allowed tokens prior to the first transaction was committed. 
+These checks are doable utilising complicated blockchain explorers like `[Etherscan.io](https://etherscan.io/)`
+Alternative ways to avoid the vulnerability is to approve token transfers solely to smart contracts that are verified code which do not contain business logic for carrying front running attacks also to accounts owned by users you know well.
