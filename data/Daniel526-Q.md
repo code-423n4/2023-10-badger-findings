@@ -29,3 +29,26 @@ require(collateral.transfer(address(receiver), amount), "ActivePool: Transfer fa
 // ...
 
 ```
+## C. Duplicate `_feeRecipientAddress`
+[Link](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/BorrowerOperations.sol#L1140-L1150)
+The `setFeeRecipientAddress` function in the provided contract allows for the setting of a new `_feeRecipientAddress` without verifying that it is different from the current one. Here is the relevant code snippet:
+
+```solidity
+function setFeeRecipientAddress(address _feeRecipientAddress) external requiresAuth {
+    require(
+        _feeRecipientAddress != address(0),
+        "BorrowerOperations: Cannot set feeRecipient to zero address"
+    );
+
+    cdpManager.syncGlobalAccounting();
+
+    feeRecipientAddress = _feeRecipientAddress;
+    emit FeeRecipientAddressChanged(_feeRecipientAddress);
+}
+```
+The function correctly checks that the new `_feeRecipientAddress` is not the zero address, but it does not include a check to ensure that it is not the same as the current `feeRecipientAddress`. Without this check, the contract allows setting the same fee recipient address again, which may not be intended and could lead to unintended behavior.
+## Impact:
+The impact of this issue is that it may allow for the accidental or intentional setting of the same fee recipient address multiple times. This could lead to unexpected behavior in the contract and disrupt its intended governance or fee distribution mechanisms.
+
+Mitigation:
+Check in the `setFeeRecipientAddress` function to verify that the new address is different from the current `feeRecipientAddress`.
