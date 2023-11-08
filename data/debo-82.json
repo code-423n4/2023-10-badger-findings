@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "debo",
+  "risk": "3",
+  "title": "[H-01] Ability to call approve function in the EBTCToken contract",
+  "issueId": 82,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/82"
+}
