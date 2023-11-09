@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "lsaudit",
+  "risk": "2",
+  "title": "There's no price comparison for Fallback in `PriceFeed.sol`",
+  "issueId": 91,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/91"
+}
