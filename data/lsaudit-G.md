@@ -984,3 +984,30 @@ can be changed to:
 ```
 
 Line `require(_newIndex > _prevIndex, "CDPManager: only take fee with bigger new index");` implies, that `_newIndex > _prevIndex`, thus `uint256 deltaIndex = _newIndex - _prevIndex;` can be unchecked.
+
+# [G-35] Perform allowance check before transfer in `EBTCToken.sol`
+
+[File: EBTCToken.sol](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/EBTCToken.sol#L134)
+```
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external override returns (bool) {
+        _requireValidRecipient(recipient);
+        _transfer(sender, recipient, amount);
+
+        uint256 cachedAllowance = _allowances[sender][msg.sender];
+        if (cachedAllowance != type(uint256).max) {
+            require(cachedAllowance >= amount, "ERC20: transfer amount exceeds allowance");
+            unchecked {
+                _approve(sender, msg.sender, cachedAllowance - amount);
+            }
+        }
+        return true;
+    }
+```
+
+Current implementation firstly performs transfer: `_transfer(sender, recipient, amount)` and later - checks for allowances: `require(cachedAllowance >= amount, "ERC20: transfer amount exceeds allowance");`.
+This is a waste of gas, when transfer is not approved. Firstly, we will waste gas on `_transfer()`, and then, function will perform allowance check and revert.
+Much better idea would be to firstly check for allowance, and then, perform `_transfer()`. This is exactly how it's done in Open Zeppelin ERC-20 implementation.
