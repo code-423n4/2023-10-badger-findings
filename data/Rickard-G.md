@@ -188,3 +188,96 @@ packages\contracts\contracts\SortedCdps.sol
 6: import "./Interfaces/ICdpManager.sol";
 7: import "./Interfaces/IBorrowerOperations.sol";
 ````
+## [G-02] Setting the `constructor` to `payable`
+Saves ~13 gas per instance.
+## Proof Of Concept
+````solidity
+packages/contracts/contracts/ActivePool.sol
+46:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/ActivePool.sol#L46](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/ActivePool.sol#L46)
+````solidity
+packages/contracts/contracts/BorrowerOperations.sol
+107:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/BorrowerOperations.sol#L107](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/BorrowerOperations.sol#L107)
+````solidity
+packages/contracts/contracts/CdpManager.sol
+30:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManager.sol#L30](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManager.sol#L30)
+````solidity
+packages/contracts/contracts/CdpManagerStorage.sol
+217:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L217](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L217)
+````solidity
+packages/contracts/contracts/CollSurplusPool.sol
+42:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CollSurplusPool.sol#L42](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CollSurplusPool.sol#L42)
+````solidity
+packages/contracts/contracts/Governor.sol
+36:    constructor(address _owner) RolesAuthority(_owner, Authority(address(this))) {}
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L36](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L36)
+````solidity
+packages/contracts/contracts/HintHelpers.sol
+27:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/HintHelpers.sol#L27](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/HintHelpers.sol#L27)
+````solidity
+packages/contracts/contracts/LeverageMacroBase.sol
+51:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroBase.sol#L51](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroBase.sol#L51)
+````solidity
+packages/contracts/contracts/LeverageMacroDelegateTarget.sol
+41:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroDelegateTarget.sol#L41](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroDelegateTarget.sol#L41)
+````solidity
+packages/contracts/contracts/LeverageMacroFactory.sol
+21:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroFactory.sol#L21](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroFactory.sol#L21)
+````solidity
+packages/contracts/contracts/LeverageMacroReference.sol
+17:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroReference.sol#L17](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LeverageMacroReference.sol#L17)
+````solidity
+packages/contracts/contracts/LiquidationLibrary.sol
+14:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LiquidationLibrary.sol#L14](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/LiquidationLibrary.sol#L14)
+````solidity
+packages/contracts/contracts/PriceFeed.sol
+57:    constructor(
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/PriceFeed.sol#L57](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/PriceFeed.sol#L57)
+````solidity
+packages/contracts/contracts/SimplifiedDiamondLike.sol
+44:    constructor(address _owner) {
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SimplifiedDiamondLike.sol#L44](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SimplifiedDiamondLike.sol#L44)
+````solidity
+packages/contracts/contracts/SortedCdps.sol
+88:    constructor(uint256 _size, address _cdpManagerAddress, address _borrowerOperationsAddress) {
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SortedCdps.sol#L88](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SortedCdps.sol#L88)
+````solidity
+packages/contracts/contracts/Dependencies/Auth.sol
+18:    constructor(address _owner, Authority _authority) {
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/Auth.sol#L18](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/Auth.sol#L18)
+````solidity
+packages/contracts/contracts/Dependencies/EbtcBase.sol
+52:    constructor(address _activePoolAddress, address _priceFeedAddress, address _collateralAddress) {
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/EbtcBase.sol#L52](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/EbtcBase.sol#L52)
+````solidity
+packages/contracts/contracts/Dependencies/RolesAuthority.sol
+20:    constructor(address _owner, Authority _authority) Auth(_owner, _authority) {}
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L20](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L20)
