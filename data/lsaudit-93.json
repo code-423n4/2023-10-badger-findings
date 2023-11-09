@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "lsaudit",
+  "risk": "2",
+  "title": "`claimSurplusCollShares()` does not correctly work in Recovery Mode",
+  "issueId": 93,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/93"
+}
