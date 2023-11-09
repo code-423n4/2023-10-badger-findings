@@ -281,3 +281,34 @@ packages/contracts/contracts/Dependencies/RolesAuthority.sol
 20:    constructor(address _owner, Authority _authority) Auth(_owner, _authority) {}
 ````
 [https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L20](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L20)
+## [G-03] The `owner` can be declared inside the `constructor`
+## Relevant GitHub Links
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/Auth.sol#L18](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/Auth.sol#L18)
+
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L36](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L36)
+
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L20](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L20)
+
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SimplifiedDiamondLike.sol#L44](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SimplifiedDiamondLike.sol#L44)
+## Summary
+Inside the `constructor`, it is possible to declare the `owner`.
+## Impact
+Optimization
+## Tools Used
+Manual code review
+## Recommendations
+You can make this change :
+
+packages/contracts/contracts/Dependencies/Auth.sol
+````diff
+- constructor(address _owner, Authority _authority) {
++ constructor(Authority _authority) {
+-        owner = _owner;
++        owner = msg.sender;
+         authority = _authority;
+
+-        emit OwnershipTransferred(msg.sender, _owner);
++        emit OwnershipTransferred(msg.sender, owner);
+         emit AuthorityUpdated(msg.sender, _authority);
+    }
+````
