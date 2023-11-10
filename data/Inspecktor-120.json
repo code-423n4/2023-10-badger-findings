@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Inspecktor",
+  "risk": "3",
+  "title": "The system is unstable due to strong price fluctuations, which can lead to loss of user funds and a negative attitude towards badger. This can also lead to a low coverage ratio",
+  "issueId": 120,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/120"
+}
