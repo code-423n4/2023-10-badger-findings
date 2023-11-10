@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Inspecktor",
+  "risk": "2",
+  "title": "Issuing approval for an address does not indicate for which CDP",
+  "issueId": 135,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/135"
+}
