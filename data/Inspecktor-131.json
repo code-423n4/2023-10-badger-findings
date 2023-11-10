@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Inspecktor",
+  "risk": "2",
+  "title": "TIMEOUT_ETH_BTC_FEED and TIMEOUT_STETH_ETH_FEED are large, resulting in incorrect asset pricing.",
+  "issueId": 131,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/131"
+}
