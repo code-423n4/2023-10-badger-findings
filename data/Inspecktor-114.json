@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Inspecktor",
+  "risk": "3",
+  "title": "The fee for using ActivePool.flashLoan() may not be paid",
+  "issueId": 114,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/114"
+}
