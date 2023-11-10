@@ -26,3 +26,16 @@ function setRoleCapability(
 require(capabilityFlag[target][functionSig] == CapabilityFlag.None,"xxx");
 ```
 This condition serves to protect the owner from setting roles as burned or public, thus preventing unnecessary storage wastage.
+
+3. `transferOwnership` should be two step process
+```
+File: package/contracts/contracts/Dependencies/Auth.sol
+function transferOwnership(address newOwner) public virtual requiresAuth {
+        owner = newOwner;
+
+        emit OwnershipTransferred(msg.sender, newOwner);
+    }
+```
+The function transferOwnership() transfer ownership to a new address. In case a wrong address is supplied
+ownership is inaccessible. 
+Consider implementing a two step ownership transfer.
