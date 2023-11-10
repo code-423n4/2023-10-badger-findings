@@ -1,5 +1,3 @@
- Badger's eBTC audit and Certora, combined with the concept of borrowing Bitcoin with 0% fees, presents a unique and powerful use case. The contracts seems to have implemented multiple security measures, like restricting sensitive functions to authorized addresses and implementing EIP-2612 and EIP-712.
-
 Here's a summarized assessment of the identified risks and recommendations for the smart contracts in question:
 
 ExcessivelySafeCall Function - Gas Limit (Medium Risk)
@@ -22,7 +20,9 @@ GetApproxHint Function - Improve Precision (Medium Risk)
 
 Issue: The precision of the getApproxHint function might be inadequate, potentially leading to imprecise or suboptimal outcomes.
 Recommendation: Refine the algorithm or logic within this function to improve its precision and ensure more accurate results.
-Overall, these recommendations focus on enhancing the security and reliability of the contract through better input validation, access control, gas management, attack prevention, and precision improvement. Implementing these changes can significantly reduce the risk of security vulnerabilities and improve the overall robustness of the contract.
+Overall, these recommendations focus on enhancing the security and reliability of all the contracts through better input validation, access control, gas management, attack prevention, and precision improvement. Implementing these changes can significantly reduce the risk of security vulnerabilities and improve the overall robustness of the contract.
+
+
 
 
 
