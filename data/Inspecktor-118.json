@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Inspecktor",
+  "risk": "3",
+  "title": "The LIQUIDATOR_REWARD and MIN_NET_STETH_BALANCE parameters are constants and do not take into account future price fluctuations",
+  "issueId": 118,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/118"
+}
