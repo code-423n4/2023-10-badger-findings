@@ -39,3 +39,48 @@ function transferOwnership(address newOwner) public virtual requiresAuth {
 The function transferOwnership() transfer ownership to a new address. In case a wrong address is supplied
 ownership is inaccessible. 
 Consider implementing a two step ownership transfer.
+
+4. Strengthening Checks in the _initializeAuthority Method for Enhanced Reliability
+```
+File: package/contracts/contracts/Dependencies/AuthNoOwner.sol
+function _initializeAuthority(address newAuthority) internal {
+        require(address(_authority) == address(0), "Auth: authority is non-zero");
+        require(!_authorityInitialized, "Auth: authority already initialized");
+
+        _authority = Authority(newAuthority);
+        _authorityInitialized = true;
+
+        emit AuthorityUpdated(address(this), Authority(newAuthority));
+    }
+```
+In order to ensure system integrity, it is imperative to diligently verify that newAuthority is a contract and has the canCall method properly implemented. The omission of this critical check may culminate in a revert scenario upon calling setAuthority, consequently triggering a system-wide failure.
+
+5. Strengthening Checks in the setAuthority Method for Enhanced Reliability
+```
+File: package/contracts/contracts/Dependencies/AuthNoOwner.sol
+function setAuthority(address newAuthority) public virtual {
+        // We check if the caller is the owner first because we want to ensure they can
+        // always swap out the authority even if it's reverting or using up a lot of gas.
+        require(_authority.canCall(msg.sender, address(this), msg.sig));
+
+        _authority = Authority(newAuthority);
+
+        // Once authority is set once via any means, ensure it is initialized
+        if (!_authorityInitialized) {
+            _authorityInitialized = true;
+        }
+        //change to
+        require(_authorityInitialized,"xx");
+        emit AuthorityUpdated(msg.sender, Authority(newAuthority));
+    }
+```
+When using require(_authorityInitialized, "xx") instead, it ensures that the setAuthority method can only be called after invoking _initializeAuthority, adding a necessary condition for proper sequence and functionality.
+
+6. Enhancing Reliability: Making LIQUIDATOR_REWARD Mutable
+```
+File: package/contracts/contracts/Dependencies/EbtcBase.sol
+uint256 public constant LIQUIDATOR_REWARD = 2e17;
+change to
+uint256 internal LIQUIDATOR_REWARD = 2e17;
+```
+With the fluctuation in the price of ETH, adjusting the reward value might be necessary to effectively incentivize liquidators for liquidation.
