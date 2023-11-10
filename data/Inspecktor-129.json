@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Inspecktor",
+  "risk": "3",
+  "title": "An attacker can influence system parameters through the BorrowerOperations.adjustCdp() function and BorrowerOperations.adjustCdpWithColl() using the _isDebtIncrease parameter",
+  "issueId": 129,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/129"
+}
