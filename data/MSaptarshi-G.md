@@ -3,5 +3,5 @@
 Instead use this :
 `import {ReentrancyGuard} from "./Dependencies/ReentrancyGuard.sol";`
 
-# [2] This line is only initializing fee variable which doesn't have much need 
+# [2] This line is only initializing fee variable which doesn't have much need use flashFee directly
 `uint256 fee = flashFee(token, amount); `
