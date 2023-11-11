@@ -52,3 +52,46 @@ The impact of this issue is that it may allow for the accidental or intentional 
 
 Mitigation:
 Check in the `setFeeRecipientAddress` function to verify that the new address is different from the current `feeRecipientAddress`.
+## D. Array Out-of-Bounds Access in _getCdpIdsToRemove Function
+[Link](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManager.sol#L288-L485)
+## Impact
+In this scenario, the `_getCdpIdsToRemove` function attempts to access 5 CDPs, but there are only 3 CDPs in the specified range. As a result, the function may access non-existent CDPs, leading to array out-of-bounds access. This can cause runtime errors, unexpected behavior, and potential inconsistencies in the state of the protocol.
+
+## Proof of Concept
+The `_getCdpIdsToRemove` function is designed to retrieve an array of CDP IDs within a specified range. However, it lacks sufficient bounds checking for the parameter `_total`, which represents the number of CDPs to be retrieved. If `_total` exceeds the actual count of CDPs in the specified range, the function may attempt to access non-existent CDPs, leading to array out-of-bounds access. This can result in runtime errors and inconsistencies in the state of the protocol.
+```solidity
+function _getCdpIdsToRemove(
+    bytes32 _start,
+    uint256 _total,
+    bytes32 _end
+) internal view returns (bytes32[] memory) {
+    uint256 _cnt = _total;
+    bytes32 _id = _start;
+    bytes32[] memory _toRemoveIds = new bytes32[](_total);
+    while (_cnt > 0 && _id != bytes32(0)) {
+        _toRemoveIds[_total - _cnt] = _id;
+        _cnt = _cnt - 1;
+        _id = sortedCdps.getNext(_id);
+    }
+    require(_toRemoveIds[0] == _start, "CdpManager: batchRemoveSortedCdpIds check start error");
+    require(
+        _toRemoveIds[_total - 1] == _end,
+        "CdpManager: batchRemoveSortedCdpIds check end error"
+    );
+    return _toRemoveIds;
+}
+```
+Let's consider a scenario where the `_getCdpIdsToRemove` function is called with an incorrectly specified `_total` parameter. An attacker intentionally provides a value greater than the actual number of CDPs in the specified range, leading to array out-of-bounds access.
+```solidity
+// Assume there are 3 CDPs in the specified range: Cdp1, Cdp2, Cdp3
+
+// Incorrectly specifying _total as 5, which is greater than the actual number of CDPs
+bytes32[] memory result = _getCdpIdsToRemove(Cdp1, 5, Cdp3);
+
+// The _getCdpIdsToRemove function attempts to access 5 CDPs, but there are only 3
+// This can lead to array out-of-bounds access, causing unexpected behavior
+```
+
+## Mitigation
+Ensure that the value of _total is always within the valid range of existing CDPs in the specified range.
+
