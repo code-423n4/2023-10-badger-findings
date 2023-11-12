@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "0xBeirao",
+  "risk": "2",
+  "title": "`LeverageMacroFactory` is sensible to re-org attack",
+  "issueId": 156,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/156"
+}
