@@ -68,14 +68,12 @@ We can use assembly to efficiently validate msg.sender with the least amount of 
 ./LeverageMacroBase.sol:                msg.sender == address(borrowerOperations),
 ./LeverageMacroBase.sol:                msg.sender == address(activePool),
 ./BorrowerOperations.sol:        if (_borrower == msg.sender) {
-./BorrowerOperations.sol:            receiver.onFlashLoan(msg.sender, token, amount, fee, data) == FLASH_SUCCESS_VALUE,
 ./CollSurplusPool.sol:            msg.sender == borrowerOperationsAddress,
 ./CollSurplusPool.sol:        require(msg.sender == cdpManagerAddress, "CollSurplusPool: Caller is not CdpManager");
 ./CollSurplusPool.sol:        require(msg.sender == activePoolAddress, "CollSurplusPool: Caller is not Active Pool");
 ./ActivePool.sol:            msg.sender == borrowerOperationsAddress,
 ./ActivePool.sol:            msg.sender == borrowerOperationsAddress || msg.sender == cdpManagerAddress,
 ./ActivePool.sol:        require(msg.sender == cdpManagerAddress, "ActivePool: Caller is not CdpManager");
-./ActivePool.sol:            receiver.onFlashLoan(msg.sender, token, amount, fee, data) == FLASH_SUCCESS_VALUE,
 ./SimplifiedDiamondLike.sol:        require(msg.sender == owner);
 ./SimplifiedDiamondLike.sol:        require(msg.sender == owner);
 ./SimplifiedDiamondLike.sol:        require(msg.sender == address(this)); // Must call this via `execute` to explicitly set the flag
