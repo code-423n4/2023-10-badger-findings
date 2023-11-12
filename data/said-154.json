@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "said",
+  "risk": "2",
+  "title": "Adjusting CDP in recovery mode could revert even if the operations would result in higher TCR and exit the recovery mode",
+  "issueId": 154,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/154"
+}
