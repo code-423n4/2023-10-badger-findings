@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "0xBeirao",
+  "risk": "3",
+  "title": "The way fees are accounted can break the sorted list order",
+  "issueId": 155,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/155"
+}
