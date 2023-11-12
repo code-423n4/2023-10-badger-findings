@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "nobody2018",
+  "risk": "2",
+  "title": "LeverageMacroBase.doOperation being used by openCdp may cause OOG in some cases",
+  "issueId": 151,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/151"
+}
