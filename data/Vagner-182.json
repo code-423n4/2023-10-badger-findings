@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Vagner",
+  "risk": "2",
+  "title": "The hearbeat used in `PriceFeed.sol` to check if Chainlink is frozen are bigger than it should, which could lead to stale pricing",
+  "issueId": 182,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/182"
+}
