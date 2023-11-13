@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "jasonxiale",
+  "risk": "2",
+  "title": "`PriceFeed.TIMEOUT_ETH_BTC_FEED` and `PriceFeed.TIMEOUT_STETH_ETH_FEED` are set too large",
+  "issueId": 191,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/191"
+}
