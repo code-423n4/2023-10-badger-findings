@@ -136,3 +136,316 @@ https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb
 ### Tools Used
 
 Manual Analysis
+
+
+#  NON CRITICAL VULNERABILITIES
+
+## 1: File is missing NatSpec
+
+Vulnerability details
+
+### Proof of Concept
+
+**File: ISortedCdps.sol**
+
+**File: IBorrowerOperations.sol**
+
+**File: ICdpManager.sol**
+
+**File: ICdpManagerData.sol**
+
+**File: ICollSurplusPool.sol**
+
+**File: IEbtcBase.sol**
+
+**File: IEBTCToken.sol**
+
+**File: IPermitNonce.sol**
+
+**File: IPool.sol**
+
+**File: IPositionManagers.sol**
+
+**File: IPriceFeed.sol**
+
+**File: IRecoveryModeGracePeriod.sol**
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Add NatSpec comments where necessary.
+
+
+## 2: Misleading “events” discriptive header 
+
+Vulnerability details
+
+### Context:
+
+The “events” discriptive header is misleading as it is not acctually followed by events but a struct.
+
+### Proof of Concept
+
+https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/HintHelpers.sol#L17
+
+**File: HintHelpers.sol**
+
+```
+17:	    // --- Events ---
+```
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Use appropriate (matching) discriptive headers to describe code
+
+## 3: Import declarations should import specific identifiers, rather than the whole file
+
+Vulnerability details
+
+### Context:
+
+Using import declarations of the form import {<identifier_name>} from "some/file.sol" avoids polluting the symbol namespace making flattened files smaller, and speeds up compilation (but does not save any gas)
+
+For reference, see https://
+
+### Proof of Concept
+
+**File: IERC3156FlashLender.sol**
+
+```
+5:	 import "./IERC3156FlashBorrower.sol";
+```
+
+**File: IEBTCToken.sol**
+
+```
+5:	import "../Dependencies/IERC20.sol";
+6:	import "../Dependencies/IERC2612.sol";
+
+```
+
+**File: IEbtcBase.sol**
+
+```
+5:	import "./IPriceFeed.sol";
+```
+
+**File: ICdpManagerData.sol**
+
+```
+5:	import "./ICollSurplusPool.sol";
+6:	import "./IEBTCToken.sol";
+7:	import "./ISortedCdps.sol";
+8:	import "./IActivePool.sol";
+9:	import "./IRecoveryModeGracePeriod.sol";
+10:	import "../Dependencies/ICollateralTokenOracle.sol";
+```
+
+**File: ICdpManager.sol**
+
+```
+5:	import "./IEbtcBase.sol";
+6:	import "./ICdpManagerData.sol";
+
+```
+
+**File: IBorrowerOperations.sol**
+
+```
+4:	import "./IPositionManagers.sol";
+
+```
+
+**File: IActivePool.sol**
+
+```
+5:	import "./IPool.sol";
+```
+
+**File: SortedCdps.sol**
+
+```
+5:	import "./Interfaces/ISortedCdps.sol";
+6:	import "./Interfaces/ICdpManager.sol";
+7:	import "./Interfaces/IBorrowerOperations.sol";
+```
+
+
+**File: RolesAuthority.sol**
+
+```
+4:	import {IRolesAuthority} from "./IRolesAuthority.sol";
+5:	import {Auth, Authority} from "./Auth.sol";
+6:	import "./EnumerableSet.sol";
+```
+
+
+**File: PriceFeed.sol**
+
+```
+5:	import "./Interfaces/IPriceFeed.sol";
+6:	import "./Interfaces/IFallbackCaller.sol";
+7:	import "./Dependencies/AggregatorV3Interface.sol";
+8:	import "./Dependencies/BaseMath.sol";
+9:	import "./Dependencies/EbtcMath.sol";
+10:	import "./Dependencies/AuthNoOwner.sol";
+```
+
+**File: LiquidationLibrary.sol**
+
+```
+4:	import "./Interfaces/ICdpManagerData.sol";
+5:	import "./Interfaces/ICollSurplusPool.sol";
+6:	import "./Interfaces/IEBTCToken.sol";
+7:	import "./Interfaces/ISortedCdps.sol";
+8:	import "./Dependencies/ICollateralTokenOracle.sol";
+9:	import "./CdpManagerStorage.sol";
+```
+
+
+
+**File: LeverageMacroFactory.sol**
+
+```
+5:	import "./Dependencies/ICollateralToken.sol";
+6:	import "./Interfaces/IEBTCToken.sol";
+```
+
+
+**File: LeverageMacroBase.sol**
+
+```
+4:	import "./Interfaces/IBorrowerOperations.sol";
+5:	import "./Interfaces/IERC3156FlashLender.sol";
+6:	import "./Interfaces/IEBTCToken.sol";
+7:	import "./Interfaces/ICdpManager.sol";
+8:	import "./Interfaces/ISortedCdps.sol";
+9:	import "./Interfaces/IPriceFeed.sol";
+10:	import "./Dependencies/ICollateralToken.sol";
+```
+
+```
+12:	import "./Dependencies/SafeERC20.sol";
+```
+
+
+**File: HintHelpers.sol**
+
+```
+5:	import "./Interfaces/ICdpManager.sol";
+6:	import "./Interfaces/ISortedCdps.sol";
+7:	import "./Dependencies/EbtcBase.sol";
+```
+
+
+**File: ERC3156FlashLender.sol**
+
+```
+5:	import "../Interfaces/IERC3156FlashLender.sol";
+6:	import "../Interfaces/IWETH.sol";
+```
+
+
+**File: EBTCToken.sol**
+
+```
+5:	import "./Interfaces/IEBTCToken.sol";
+
+7:	import "./Dependencies/AuthNoOwner.sol";
+8:	import "./Dependencies/PermitNonce.sol";
+```
+
+
+**File: EbtcBase.sol**
+
+```
+5:	import "./BaseMath.sol";
+6:	import "./EbtcMath.sol";
+7:	import "../Interfaces/IActivePool.sol";
+8:	import "../Interfaces/IPriceFeed.sol";
+9:	import "../Interfaces/IEbtcBase.sol";
+10:	import "../Dependencies/ICollateralToken.sol";
+```
+
+**File: CollSurplusPool.sol**
+
+```
+5:	import "./Interfaces/ICollSurplusPool.sol";
+6:	import "./Dependencies/ICollateralToken.sol";
+7:	import "./Dependencies/SafeERC20.sol";
+8:	import "./Dependencies/ReentrancyGuard.sol";
+9:	import "./Dependencies/AuthNoOwner.sol";
+10:	import "./Interfaces/IActivePool.sol";
+```
+
+**File: CdpManagerStorage.sol**
+
+```
+5:	import "./Interfaces/ICdpManager.sol";
+6:	import "./Interfaces/ICollSurplusPool.sol";
+7:	import "./Interfaces/IEBTCToken.sol";
+8:	import "./Interfaces/ISortedCdps.sol";
+9:	import "./Dependencies/EbtcBase.sol";
+10:	import "./Dependencies/ReentrancyGuard.sol";
+11:	import "./Dependencies/ICollateralTokenOracle.sol";
+12:	import "./Dependencies/AuthNoOwner.sol";
+```
+
+**File: CdpManager.sol**
+
+```
+5:	import "./Interfaces/ICdpManager.sol";
+6:	import "./Interfaces/ICollSurplusPool.sol";
+7:	import "./Interfaces/IEBTCToken.sol";
+8:	import "./Interfaces/ISortedCdps.sol";
+9:	import "./Dependencies/ICollateralTokenOracle.sol";
+10:	import "./CdpManagerStorage.sol";
+11:	import "./Dependencies/Proxy.sol";
+```
+
+**File: BorrowerOperations.sol**
+
+```
+5:	import "./Interfaces/IBorrowerOperations.sol";
+6:	import "./Interfaces/ICdpManager.sol";
+7:	import "./Interfaces/ICdpManagerData.sol";
+8:	import "./Interfaces/IEBTCToken.sol";
+9:	import "./Interfaces/ICollSurplusPool.sol";
+10:	import "./Interfaces/ISortedCdps.sol";
+11:	import "./Dependencies/EbtcBase.sol";
+12:	import "./Dependencies/ReentrancyGuard.sol";
+13:	import "./Dependencies/Ownable.sol";
+14:	import "./Dependencies/AuthNoOwner.sol";
+15:	import "./Dependencies/ERC3156FlashLender.sol";
+16:	import "./Dependencies/PermitNonce.sol";
+```
+
+**File: ActivePool.sol**
+
+```
+5:	import "./Interfaces/IActivePool.sol";
+6:	import "./Interfaces/ICollSurplusPool.sol";
+7:	import "./Dependencies/ICollateralToken.sol";
+8:	import "./Interfaces/ICdpManagerData.sol";
+9:	import "./Dependencies/ERC3156FlashLender.sol";
+10:	import "./Dependencies/SafeERC20.sol";
+11:	import "./Dependencies/ReentrancyGuard.sol";
+12:	import "./Dependencies/AuthNoOwner.sol";
+13:	import "./Dependencies/BaseMath.sol";
+```
+
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Use specific identifiers for Import declarations
