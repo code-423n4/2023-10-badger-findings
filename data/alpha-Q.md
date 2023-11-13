@@ -116,3 +116,9 @@ function cdpOfOwnerByIndex(
 ```
 This function, which iterates over all nodes, poses a risk of gas exhaustion, particularly when dealing with a substantial node count, such as 5000. The possibility of a revert due to out-of-gas conditions needs careful consideration and potential mitigation strategies.
 The cdpCountOf and getCdpsOf functions share a similar concern. A meticulous review of all dependencies on these functions is imperative to ensure seamless functionality, particularly when dealing with a substantial number of nodes.
+
+9. Enhancing Safety: Adding Additional Checks to batchRemove Function
+File: package/contracts/contracts/SortedCdps.sol
+function batchRemove(bytes32[] memory _ids) 
+```
+batchRemove makes a strong trust assumption that the specified nodes are sorted in the same order as in the input array. It is potentially risky, as inadvertent actions could lead to the deletion of nodes that shouldn't be removed. To mitigate this risk, please consider adding a check in the code to ensure that the input array is sorted.
