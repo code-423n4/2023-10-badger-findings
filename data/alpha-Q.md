@@ -84,3 +84,22 @@ change to
 uint256 internal LIQUIDATOR_REWARD = 2e17;
 ```
 With the fluctuation in the price of ETH, adjusting the reward value might be necessary to effectively incentivize liquidators for liquidation.
+
+7. Addressing Potential Block Number Overflow Issues in the Future
+```
+File: package/contracts/contracts/SortedCdps.sol
+function toCdpId(
+        address owner,
+        uint256 blockHeight,
+        uint256 nonce
+    ) public pure returns (bytes32) {
+        bytes32 serialized;
+
+        serialized |= bytes32(nonce);
+        serialized |= bytes32(blockHeight) << BLOCK_SHIFT; // to accommendate more than 4.2 billion blocks
+        serialized |= bytes32(uint256(uint160(owner))) << ADDRESS_SHIFT;
+
+        return serialized;
+    }
+```
+In the future, if Ethereum were to change the block generation time, there is a potential risk of overflow beyond the maximum value of uint32 for blockHeight. This could lead to inaccuracies in tracking the owner's address. To address this potential flaw, it is advisable to implement additional checks to ensure proper handling of blockHeight overflow scenarios.
