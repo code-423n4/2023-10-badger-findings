@@ -312,3 +312,24 @@ packages/contracts/contracts/Dependencies/Auth.sol
          emit AuthorityUpdated(msg.sender, _authority);
     }
 ````
+## [G-04] Multiple `address/bytes32` mappings can be combined into a single mapping of an `address/bytes32` to a `struct`, where appropriate
+## Summary
+````solidity
+packages/contracts/contracts/Dependencies/RolesAuthority.sol
+28:    mapping(address => EnumerableSet.Bytes32Set) internal enabledFunctionSigsByTarget;
+32:    mapping(address => bytes32) public getUserRoles;
+34:    mapping(address => mapping(bytes4 => CapabilityFlag)) public capabilityFlag;
+36:    mapping(address => mapping(bytes4 => bytes32)) public getRolesWithCapability;
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L28-L36](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L28-L36)
+````solidity
+packages/contracts/contracts/CdpManagerStorage.sol
+168:    mapping(bytes32 => Cdp) public Cdps;
+190:    mapping(bytes32 => uint256) public cdpDebtRedistributionIndex;
+202:    mapping(bytes32 => uint256) public cdpStEthFeePerUnitIndex;
+````
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L168](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L168)
+
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L190](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L190)
+
+[https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L202](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L202)
