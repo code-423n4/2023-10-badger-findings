@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "BARW",
+  "risk": "2",
+  "title": "Incorrect Calculation in \"LiquidationLibrary::_calculatePartialLiquidationSurplusAndCap\"",
+  "issueId": 166,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/166"
+}
