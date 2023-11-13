@@ -28,7 +28,7 @@
 ```
 ### [Related code](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/EBTCToken.sol#L295C42-L311)
 
-## Redundant value passing
+## Redundant value setting
 
 ```C++
         uint256 liquidatorRewardShares = cdpManager.getCdpLiquidatorRewardShares(_cdpId);
@@ -36,8 +36,32 @@
 
 `Cdps[_cdpId].liquidatorRewardShares` is always equals `collateral.getSharesByPooledEth(LIQUIDATOR_REWARD)`, there is no need to get it from the struct.
 
+## Should Prevent Zero Amount Transfer Attack
 
+There is a restriction on transferring an amount of zero. It should be evaluated that the current allowance is greater than or equal to the maximum of the amount and 1, thereby necessitating the approval to be non-zero.
 
+```C++
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external override returns (bool) {
+        _requireValidRecipient(recipient);
+        _transfer(sender, recipient, amount);
 
+        uint256 cachedAllowance = _allowances[sender][msg.sender];
+        // if (cachedAllowance != type(uint256).max) {
+        // @audit add zero allowance check ,
+        if (cachedAllowance != type(uint256).max && cachedAllowance != 0) {
+            require(cachedAllowance >= amount, "ERC20: transfer amount exceeds allowance");
+            unchecked {
+                _approve(sender, msg.sender, cachedAllowance - amount);
+            }
+        }
+        return true;
+    }
+```
+
+[openzeppelin zero transfer attacks](https://blog.openzeppelin.com/how-to-ensure-web3-users-are-safe-from-zero-transfer-attacks)
 
 
