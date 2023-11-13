@@ -27,3 +27,17 @@
     }
 ```
 ### [Related code](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/EBTCToken.sol#L295C42-L311)
+
+## Redundant value passing
+
+```C++
+        uint256 liquidatorRewardShares = cdpManager.getCdpLiquidatorRewardShares(_cdpId);
+```
+
+`Cdps[_cdpId].liquidatorRewardShares` is always equals `collateral.getSharesByPooledEth(LIQUIDATOR_REWARD)`, there is no need to get it from the struct.
+
+
+
+
+
+
