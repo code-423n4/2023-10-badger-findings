@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "KIntern_NA",
+  "risk": "3",
+  "title": "Attacker can utilize function `CdpManager.redeemCollateral()` to break the order of sortedCdps",
+  "issueId": 172,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/172"
+}
