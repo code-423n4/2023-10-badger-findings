@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Nyx",
+  "risk": "2",
+  "title": "Bad debt redistribution is wrong inside the batchLiquidateCdps() function",
+  "issueId": 195,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/195"
+}
