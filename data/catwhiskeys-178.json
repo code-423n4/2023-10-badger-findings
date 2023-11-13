@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "catwhiskeys",
+  "risk": "2",
+  "title": "Sensitive functions `transfer`, `_transfer`, `transferFrom` have no protection from reentrancy and from unauthorized user access",
+  "issueId": 178,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/178"
+}
