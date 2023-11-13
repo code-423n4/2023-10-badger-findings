@@ -115,3 +115,4 @@ function cdpOfOwnerByIndex(
     }
 ```
 This function, which iterates over all nodes, poses a risk of gas exhaustion, particularly when dealing with a substantial node count, such as 5000. The possibility of a revert due to out-of-gas conditions needs careful consideration and potential mitigation strategies.
+The cdpCountOf function shares a similar concern. It is imperative to meticulously review all dependencies on these functions to guarantee seamless functionality, especially when handling a substantial number of nodes.
