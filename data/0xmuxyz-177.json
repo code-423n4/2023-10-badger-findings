@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "0xmuxyz",
+  "risk": "2",
+  "title": "Due to lack of slippage protection, a redeemer would receive much less amount of stETH than expected when a redemption",
+  "issueId": 177,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/177"
+}
