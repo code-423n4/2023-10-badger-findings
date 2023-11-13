@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Weed0607",
+  "risk": "3",
+  "title": "Malicious users can drop system's TCR lower than MCR using RedeemCollateral function",
+  "issueId": 180,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/180"
+}
