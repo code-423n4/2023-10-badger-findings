@@ -213,8 +213,6 @@ Vulnerability details
 
 Using import declarations of the form import {<identifier_name>} from "some/file.sol" avoids polluting the symbol namespace making flattened files smaller, and speeds up compilation (but does not save any gas)
 
-For reference, see https://
-
 ### Proof of Concept
 
 **File: IERC3156FlashLender.sol**
