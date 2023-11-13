@@ -95,3 +95,31 @@ bytes32[] memory result = _getCdpIdsToRemove(Cdp1, 5, Cdp3);
 ## Mitigation
 Ensure that the value of _total is always within the valid range of existing CDPs in the specified range.
 
+## E. Potential Division by Zero in `_computeNewStake` Function
+[Link](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CdpManagerStorage.sol#L441-L457)
+The `_computeNewStake` function calculates the new stake based on the collateral value, total stakes snapshot, and total collateral snapshot. However, it checks for `totalStakesSnapshot > 0` before performing the division, which could lead to a division by zero if `totalStakesSnapshot` is zero. This condition should be carefully handled to prevent unexpected errors.
+```solidity
+function _computeNewStake(uint256 _coll) internal view returns (uint256) {
+    uint256 stake;
+    if (totalCollateralSnapshot == 0) {
+        stake = _coll;
+    } else {
+        require(totalStakesSnapshot > 0, "CdpManagerStorage: zero totalStakesSnapshot!");
+        stake = (_coll * totalStakesSnapshot) / totalCollateralSnapshot;
+    }
+    return stake;
+}
+```
+## Impact;
+The potential division by zero could lead to a runtime error, causing unexpected behavior and disrupting the normal operation of the contract. This might affect the accurate computation of stakes and introduce inconsistencies in the system.
+
+## Mitigation;
+Ensure that the denominator (`totalCollateralSnapshot`) is non-zero before performing the division. 
+```solidity
+function _computeNewStake(uint256 _coll) internal view returns (uint256) {
+    require(totalCollateralSnapshot > 0, "CdpManagerStorage: zero totalCollateralSnapshot!");
+    
+    uint256 stake = (_coll * totalStakesSnapshot) / totalCollateralSnapshot;
+    return stake;
+}
+```
