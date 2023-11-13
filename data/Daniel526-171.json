@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Daniel526",
+  "risk": "2",
+  "title": " Calling `_syncGlobalAccounting` might trigger Recovery Mode (RM) due to changes in the staking rewards and fee splits impacting the system's behavior.",
+  "issueId": 171,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/171"
+}
