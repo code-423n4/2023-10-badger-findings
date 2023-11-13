@@ -103,3 +103,15 @@ function toCdpId(
     }
 ```
 In the future, if Ethereum were to change the block generation time, there is a potential risk of overflow beyond the maximum value of uint32 for blockHeight. This could lead to inaccuracies in tracking the owner's address. To address this potential flaw, it is advisable to implement additional checks to ensure proper handling of blockHeight overflow scenarios.
+
+8. Potential Out-of-Gas Issues of cdpOfOwnerByIndex Function
+File: package/contracts/contracts/SortedCdps.sol
+function cdpOfOwnerByIndex(
+        address owner,
+        uint256 index
+    ) external view override returns (bytes32) {
+        (bytes32 _cdpId, ) = _cdpOfOwnerByIndex(owner, index, dummyId, 0);
+        return _cdpId;
+    }
+```
+This function, which iterates over all nodes, poses a risk of gas exhaustion, particularly when dealing with a substantial node count, such as 5000. The possibility of a revert due to out-of-gas conditions needs careful consideration and potential mitigation strategies.
