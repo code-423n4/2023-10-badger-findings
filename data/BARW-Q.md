@@ -61,6 +61,7 @@ There is a restriction on transferring an amount of zero. It should be evaluated
         return true;
     }
 ```
+### [Related code](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/EBTCToken.sol#L134-L150)
 
 [openzeppelin zero transfer attacks](https://blog.openzeppelin.com/how-to-ensure-web3-users-are-safe-from-zero-transfer-attacks)
 
