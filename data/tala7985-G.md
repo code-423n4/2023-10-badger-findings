@@ -844,51 +844,6 @@ https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contra
 
 &nbsp;
 
-```
-while (currentBorrower != address(0) && getSyncedICR(_cId, totals.price) < MCR) {
-```
-
-https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contracts/CdpManager.sol#L369
-
-```
-while (
-            currentBorrower != address(0) && totals.remainingDebtToRedeem > 0 && _maxIterations > 0
-        ) {
-```
-
-https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contracts/CdpManager.sol#L388C9-L390C12
-
-```
-while (prevId != dummyId && !_validInsertPosition(_NICR, prevId, nextId)) {
-```
-
-https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contracts/SortedCdps.sol#L629
-
-```
-while (nextId != dummyId && !_validInsertPosition(_NICR, prevId, nextId)) {
-```
-
-https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contracts/SortedCdps.sol#L652
-
-```
-while (
-                vars.currentCdpUser != address(0) &&
-                cdpManager.getSyncedICR(vars.currentCdpId, _price) < MCR
-            ) {
-```
-
-https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contracts/HintHelpers.sol#L68C13-L71C16
-
-```
-while (
-                vars.currentCdpUser != address(0) &&
-                vars.remainingEbtcToRedeem > 0 &&
-                _maxIterations-- > 0
-            ) {
-```
-
-https://github.com/code-423n4/2023-10-badger/blob/main/packages/contracts/contracts/HintHelpers.sol#L84C12-L88C16
-
 ## \[G-14\] Parameter not used in the function
 
 Remove the parameter \_initData in VariableInterestRate.getNewRate.\_initData because of it's not used in the function.
