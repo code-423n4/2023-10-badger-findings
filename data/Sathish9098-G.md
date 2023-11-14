@@ -4,6 +4,8 @@
 
 ## [G-1] Optimizing storage usage with packed structs
 
+### Saves ``8000 GAS`` , ``4 SLOT``
+
 Each slot saved can avoid an extra Gsset (20000 gas) for the first setting of the struct.
 
 Subsequent reads as well as writes have smaller gas savings.
@@ -68,6 +70,8 @@ FILE: 2023-10-badger/packages/contracts/contracts/Interfaces/IPriceFeed.sol
 
 ## [G-2] State variables can be packed into fewer storage slots
 
+### Saves ``2000 GAS`` , ``1 SLOT``
+
 The EVM works with 32 byte words. Variables less than 32 bytes can be declared next to eachother in storage and this will pack the values together into a single 32 byte storage slot (if the values combined are <= 32 bytes). If the variables packed together are retrieved together in functions we will effectively save ~2000 gas with every subsequent SLOAD for that storage slot. This is due to us incurring a Gwarmaccess (100 gas) versus a Gcoldsload (2100 gas).
 
 ### [G-2.1]  ``minuteDecayFactor`` and ``redemptionsPaused`` can be packed within same slot : Saves ``2000 GAS`` , ``1 SLOT``
@@ -100,13 +104,11 @@ FILE: 2023-10-badger/packages/contracts/contracts/CdpManagerStorage.sol
 
 ```
 
-
-
 ##
 
 ## [G-3] Remove or replace unused state variables
 
-#### Saves ``20000 GAS ``
+### Saves ``40000 GAS`` with ``2 instances``
 
 Saves a storage slot. If the variable is assigned a non-zero value, saves ``Gsset (20000 gas)``. If it's assigned a zero value, saves ``Gsreset (2900 gas)``. If the variable remains unassigned, there is no gas savings unless the variable is public, in which case the compiler-generated non-payable getter deployment cost is saved. If the state variable is overriding an interface's public function, mark the variable as constant or immutable so that it does not use a storage slot.
 
@@ -310,9 +312,12 @@ FILE: 2023-10-badger/packages/contracts/contracts/Dependencies/RolesAuthority.so
 ```
 https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Dependencies/RolesAuthority.sol#L32-L36
 
-##
 
-## [G-11] 
+
+
+
+
+
 
 
 
