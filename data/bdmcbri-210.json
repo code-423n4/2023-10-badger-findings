@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "bdmcbri",
+  "risk": "2",
+  "title": "Missing check for the maximum and minimum price in Chainlink oracle",
+  "issueId": 210,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/210"
+}
