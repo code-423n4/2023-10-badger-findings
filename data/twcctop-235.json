@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "twcctop",
+  "risk": "2",
+  "title": "PriceFeed  constructor  don't check   `fallbackCaller` state. ",
+  "issueId": 235,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/235"
+}
