@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Daniel526",
+  "risk": "2",
+  "title": "Lack of Check for Zero Address in Owner Parameter in permit Function Allows for \"Zombie Funds\"",
+  "issueId": 212,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/212"
+}
