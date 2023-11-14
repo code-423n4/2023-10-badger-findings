@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "nonseodion",
+  "risk": "2",
+  "title": "Untrusted Chainlink price is used without a basis for comparison",
+  "issueId": 289,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/289"
+}
