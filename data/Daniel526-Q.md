@@ -123,3 +123,43 @@ function _computeNewStake(uint256 _coll) internal view returns (uint256) {
     return stake;
 }
 ```
+## F. Gas Inefficiency in `getUsersByRole` Function Causing DOS.
+[Link](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L43-L66)
+The purpose of `getUsersByRole` is to retrieve a list of users assigned a specific role. However, the function's workability relies on iterating through all users stored in the `EnumerableSet`, which can lead to gas inefficiency, especially when the number of users is substantial.
+## Impact:
+The potential impact of this gas inefficiency is increased gas costs for users interacting with the contract. In extreme cases, it could lead to out-of-gas errors, causing denial of service and making the function impractical for scenarios involving a large number of users.
+## Mitigation;
+Modified getUsersByRole with Batching
+```solidity
+function getUsersByRole(uint8 role, uint256 batchSize, uint256 startIndex) external view returns (address[] memory usersWithRole) {
+    uint256 endIndex = startIndex + batchSize;
+
+    // Ensure endIndex does not exceed the total number of users
+    if (endIndex > users.length()) {
+        endIndex = users.length();
+    }
+
+    uint256 count;
+    for (uint256 i = startIndex; i < endIndex; i++) {
+        address user = users.at(i);
+        bool _canCall = doesUserHaveRole(user, role);
+        if (_canCall) {
+            count += 1;
+        }
+    }
+
+    if (count > 0) {
+        uint256 j = 0;
+        usersWithRole = new address[](count);
+        address[] memory _usrs = users.values();
+        for (uint256 i = startIndex; i < endIndex; i++) {
+            address user = _usrs[i];
+            bool _canCall = doesUserHaveRole(user, role);
+            if (_canCall) {
+                usersWithRole[j] = user;
+                j++;
+            }
+        }
+    }
+}
+```
