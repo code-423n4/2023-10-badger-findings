@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "0xRobocop",
+  "risk": "2",
+  "title": "LeverageMacroBase: Open CDP post check has incorrect logic",
+  "issueId": 204,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/204"
+}
