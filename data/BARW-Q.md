@@ -65,4 +65,6 @@ There is a restriction on transferring an amount of zero. It should be evaluated
 
 [openzeppelin zero transfer attacks](https://blog.openzeppelin.com/how-to-ensure-web3-users-are-safe-from-zero-transfer-attacks)
 
+## Unused function 
 
+`CdpManager::getRedemptionFeeWithDecay` is not used
