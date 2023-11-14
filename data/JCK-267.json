@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "JCK",
+  "risk": "2",
+  "title": "## [M-02] approve will always revert as the IERC20 interface mismatch",
+  "issueId": 267,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/267"
+}
