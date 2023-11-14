@@ -495,3 +495,121 @@ Manual Analysis
 **Recommended Mitigation Steps**
 
 Add extensive comments to assembly blocks
+
+## 5: Contracts should have full test coverage
+
+Vulnerability details
+
+### Context:
+
+While 100% code coverage does not guarantee that there are no bugs, it often will catch easyto-find bugs, and will ensure that there are fewer regressions when the code invariably has to be modified. Furthermore, in order to get full coverage, code authors will often have to re-organize their code so that it is more modular, so that each component can be tested separately, which reduces interdependencies between modules and layers, and makes for code that is easier to reason about and audit.
+
+
+### Proof of Concept
+
+**File: Various Files**
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Make sure project contracts have full test coverage.
+
+## 6: Large or complicated code bases should implement invariant tests
+
+Vulnerability details
+
+### Context:
+
+Large code bases, or code with lots of inline-assembly, complicated math, or complicated
+interactions between multiple contracts, should implement invariant fuzzing tests. Invariant
+fuzzers such as Echidna require the test writer to come up with invariants which should not be
+violated under any circumstances, and the fuzzer tests various inputs and function calls to
+ensure that the invariants always hold. Even code with 100% code coverage can still have bugs
+due to the order of the operations a user performs, and invariant fuzzers, with properly and
+extensively-written invariants, can close this testing gap significantly.
+
+For reference, see https://medium.com/coinmonks/smart-contract-fuzzing-d9b88e0b0a05
+
+### Proof of Concept
+
+**File: Various Files**
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Implement apropriate invarient tests
+
+## 7: Consider adding formal verification proofs
+
+Vulnerability details
+
+### Context:
+
+Consider using formal verification to mathematically prove that your code does what is intended, and does not have any edge cases with unexpected behavior. The solidity compiler itself has this functionality built in.
+
+For reference, see https://docs.soliditylang.org/en/latest/smtchecker.html#smtchecker-and-formal-verification
+
+### Proof of Concept
+
+**File: Various Files**
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Add apropriate formal verification proofs 
+
+## 8: Multiple address/ID mappings can be combined into a single mapping of an address/ID to a struct, for readability
+
+Vulnerability details
+
+### Context:
+
+Well-organized data structures make code reviews easier, which may lead to fewer bugs. Consider combining related mappings into mappings to structs, so it's clear what data is related.
+
+### Proof of Concept
+
+**File: CdpManagerStorage.sol**
+
+```
+168:	mapping(bytes32 => Cdp) public Cdps;
+```
+```
+190:	mapping(bytes32 => uint256) public cdpDebtRedistributionIndex;
+```
+```
+202:	mapping(bytes32 => uint256) public cdpStEthFeePerUnitIndex;
+```
+
+**File: EBTCToken.sol**
+
+```
+51:	mapping(address => uint256) private _balances;
+52:	mapping(address => mapping(address => uint256)) private _allowances;
+```
+
+
+**File: RolesAuthority.sol**
+
+```
+28:	mapping(address => EnumerableSet.Bytes32Set) internal enabledFunctionSigsByTarget;
+```
+```
+32:	mapping(address => bytes32) public getUserRoles;
+33:
+34:	mapping(address => mapping(bytes4 => CapabilityFlag)) public capabilityFlag;
+35:
+36:	mapping(address => mapping(bytes4 => bytes32)) public getRolesWithCapability;
+```
+
+### Tools Used
+
+Manual Analysis
