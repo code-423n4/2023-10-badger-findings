@@ -118,16 +118,7 @@ BorrowerOperations.sol [L734](https://github.com/code-423n4/2023-10-badger/blob/
             "BorrowerOperations: Invalid signature"
         );
 ```
-### 6. array[index] += amount costs less gas than array[index] = array[index] + amount
 
-CollSurplusPool.sol [L80](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/CollSurplusPool.sol#L80C1-L84C1)
-   ```
-    -    uint256 newAmount = balances[_account] + _amount;
-    -    balances[_account] = newAmount;
-    +    uint256 newAmount
-    +    balances[_account] += _amount;
-    +    newAmount = balances[_account];
-   ```
 ### 7. x = x +/- y costs less gas  x +=/-= y than for basic-typed state variables
 Governor.sol [L50](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L50), [L77](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L77), [L101](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/Governor.sol#L101)
 
