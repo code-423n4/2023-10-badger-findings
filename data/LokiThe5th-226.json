@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "LokiThe5th",
+  "risk": "2",
+  "title": "Redemption calls can be forcefully or incidentally reverted by other users",
+  "issueId": 226,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/226"
+}
