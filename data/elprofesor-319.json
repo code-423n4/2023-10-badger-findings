@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "elprofesor",
+  "risk": "2",
+  "title": "Invariant Breakage: stakingRewardSplit can be > MAX_REWARD_SPLIT leading to loss of funds through excessive fee accrual",
+  "issueId": 319,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/319"
+}
