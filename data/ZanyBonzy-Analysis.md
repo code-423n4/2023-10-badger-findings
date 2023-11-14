@@ -43,8 +43,10 @@
 - For a protocol of its size, it's well organized. The codebase was well written and commented, the provided documentation, videos, audit resources are probably some of the best on C4. The provided forge test line coverage is 99% which is very commendable. 
 - On the flip side, some of the codebase implementations can be gas intensive e.g use of the require/revert error strings. Some depreciated ERC20 functions, `approve`, `transfer`, `transferfrom` which is not a risk since the only tokens being used are standard ERC20 tokens, but doing this is not really good practive. 
 - Also, there's an uncomfortable number of "known" issues in the system. On one hand, it's not far fetched for a protocol of this size, at this development stage. On the other hand, each unmitigated "known" issue is a potential disaster waiting to be happen.
-- Finally for recommendations,  there's not much that can we can make that probably hasn't been made from the previous 3 audits. Mitigate "known" issues. Diversify oracle by implementing the alternative to Chainlink. Refactor some of the larger functions e.g `_redeemCollateralFromCdp` to reduce their cyclomatic complexity and make them more readable. Implement constant audits/upgrades and so on.
+- Finally for recommendations,  there's not much that can we can make that probably hasn't been made from the previous 3 audits. Mitigate "known" issues. Diversify oracle by implementing the alternative to Chainlink. Refactor some of the larger functions e.g `getRedemptionHints` to reduce their cyclomatic complexity and make them easier to understand. Implement constant audits/upgrades and so on.
+
+
 
 
 ### Time spent:
-040 hours
+40 hours
