@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Chainlink use stETH oracle and stETH rebase can have delay and impact protocol accounting",
+  "issueId": 307,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/307"
+}
