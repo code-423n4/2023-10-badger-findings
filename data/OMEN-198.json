@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "OMEN",
+  "risk": "2",
+  "title": "ChainlinkAdapterOracle will return the wrong price for asset if underlying aggregator hits minAnswer",
+  "issueId": 198,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/198"
+}
