@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "LokiThe5th",
+  "risk": "2",
+  "title": "`LeverageMacroFactory` is susceptible to chain reorganization events",
+  "issueId": 224,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/224"
+}
