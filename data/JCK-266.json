@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "JCK",
+  "risk": "2",
+  "title": "## [M‑02] Use safeTransferFrom() instead of transferFrom() to transfer NFTs",
+  "issueId": 266,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/266"
+}
