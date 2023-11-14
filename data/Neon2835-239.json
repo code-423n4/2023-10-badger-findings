@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "Neon2835",
+  "risk": "3",
+  "title": "The Grace Period mechanism may fail because using block.timestamp to calculate the grace period is not safe enough and can easily be manipulated by miners",
+  "issueId": 239,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/239"
+}
