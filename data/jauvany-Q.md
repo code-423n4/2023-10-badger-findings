@@ -439,7 +439,6 @@ Using import declarations of the form import {<identifier_name>} from "some/file
 13:	import "./Dependencies/BaseMath.sol";
 ```
 
-
 ### Tools Used
 
 Manual Analysis
@@ -447,3 +446,52 @@ Manual Analysis
 **Recommended Mitigation Steps**
 
 Use specific identifiers for Import declarations
+
+## 4: Assembly blocks should have extensive comments
+
+Vulnerability details
+
+### Context:
+
+Assembly blocks take a lot more time to audit than normal Solidity code, and often have gotchas
+and side-effects that the Solidity versions of the same code do not. Consider adding more
+comments explaining what is being done in every step of the assembly code, and describe why
+assembly is being used instead of Solidity.
+
+### Proof of Concept
+
+https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SimplifiedDiamondLike.sol#L85-L87 
+
+https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SimplifiedDiamondLike.sol#L189-L200 
+
+**File: SimplifiedDiamondLike.sol**
+
+```
+85:	assembly {
+86:            ds.slot := position
+87:        }
+
+```
+
+```
+189:        assembly {
+190:            calldatacopy(0, 0, calldatasize())
+191:            let result := delegatecall(gas(), facet, 0, calldatasize(), 0, 0)
+192:            returndatacopy(0, 0, returndatasize())
+193:            switch result
+194:            case 0 {
+195:                revert(0, returndatasize())
+196:            }
+197:            default {
+198:                return(0, returndatasize())
+199:            }
+200:        }
+```
+
+### Tools Used
+
+Manual Analysis
+
+**Recommended Mitigation Steps**
+
+Add extensive comments to assembly blocks
