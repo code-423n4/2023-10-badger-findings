@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "twcctop",
+  "risk": "2",
+  "title": "`fetchPrice` will  case1 `chainlinkWorking`  don't consider the situation when  `fallBackIsFrozen` ",
+  "issueId": 232,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/232"
+}
