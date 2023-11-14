@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "0xmuxyz",
+  "risk": "2",
+  "title": "Lack of logic to reflect a negative rebase of Lido (stETH), which lead to that the CollSurplusPool would suffer the additional loss",
+  "issueId": 251,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/251"
+}
