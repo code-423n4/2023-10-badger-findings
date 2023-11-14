@@ -12,26 +12,21 @@ https://docs.soliditylang.org/en/v0.8.17/style-guide.html
 
 While the compiler knows to optimize away the exponentiation, it’s still better coding practice to use idioms that do not require compiler optimization, if they exist.
 
-## [N-04] Showing the actual values of numbers in NatSpec comments makes checking and reading code easier
 
-## [N-05] Use constants for numbers
+## [N-04] Use constants for numbers
 
 ==In several locations in the code, numbers like 1e36, 100e18, 1e27 are used...==  
 https://github.com/code-423n4/2021-05-yield-findings/issues/3#issuecomment-852039791
 
-## [N-06] Use SMTChecker
+## [N-05] Use SMTChecker
 
 The highest tier of smart contract behavior assurance is formal mathematical verification. All assertions that are made are guaranteed to be true across all inputs → The quality of your asserts is the quality of your verification.
 
 https://twitter.com/0xOwenThurm/status/1614359896350425088?t=dbG9gHFigBX85Rv29lOjIQ&s=19
 
-## [N-07] Use the delete keyword instead of assigning a value of 0
 
-Using the ‘delete’ keyword instead of assigning a ‘0’ value is a detailed optimization that increases code readability and audit quality, and clearly indicates the intent.
 
-Other hand, if use delete instead 0 value assign , it will be gas saved.
-
-## [N-08] Function writing that does not comply with the Solidity Style Guide
+## [N-06] Function writing that does not comply with the Solidity Style Guide
 
 Context  
 All Contracts
