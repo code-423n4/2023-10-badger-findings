@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "prapandey031",
+  "risk": "2",
+  "title": "Multiple cases being missed in the ```fetchPrice()``` function of PriceFedd.sol",
+  "issueId": 291,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/291"
+}
