@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "MSaptarshi",
+  "risk": "3",
+  "title": "Truncation error due to `amount`",
+  "issueId": 205,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/205"
+}
