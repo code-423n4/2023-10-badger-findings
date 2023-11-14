@@ -1,0 +1,8 @@
+{
+  "contest": 300,
+  "handle": "ksk2345",
+  "risk": "2",
+  "title": "Possibility of different fetchPrice, when multiple requests(transactions) in the same block",
+  "issueId": 292,
+  "issueUrl": "https://github.com/code-423n4/2023-10-badger-findings/issues/292"
+}
