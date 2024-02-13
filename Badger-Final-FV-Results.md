@@ -1,0 +1,1 @@
+A summary of the final results from the Badger eBTC formal verification competition can be found [here](https://docs.google.com/spreadsheets/d/1-O1hELSE3wi0WzvQI2w--0GlilCJTFGpVTRXIQsyFAk/edit?usp=sharing).
