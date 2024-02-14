@@ -117,7 +117,7 @@ Alongside the C4 audit, a formal verification competition was held in partnershi
 
 This audit was judged by [ronnyx2017](https://code4rena.com/@ronnyx2017).
 
-Final report assembled by PaperParachute.
+Final report assembled by PaperParachute and [liveactionllama](https://twitter.com/liveactionllama).
 
 # Summary
 
