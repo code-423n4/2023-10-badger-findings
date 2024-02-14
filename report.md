@@ -1197,7 +1197,7 @@ $$$
 x_1, ;..., ; x_{i-3}, ; x_{i-2}, ; x_{i-1}, ; x_i', ; x_j, ; ..., ; x_{n}
 $$$
 
-This breaks the order of the `SortedCdps` because $x_i' > x\_{i-1}$ but has a larger position.
+This breaks the order of the `SortedCdps`, because $x_i' > x\_{i-1}$ but has a larger position.
 
 ### Impact
 
