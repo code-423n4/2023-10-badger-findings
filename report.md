@@ -1193,7 +1193,9 @@ Since the Cdp at position `j-1` hasn't been removed yet in STEP 3, all the condi
 
 Thus, the `SortedCdps` list will look like this after the redemption process:
 
-*   $$x\_1, ;..., ; x\_{i-3}, ; x\_{i-2}, ; x\_{i-1}, ; x_i', ; x_j, ; ..., ; x\_{n} $$
+$$
+x\_1, ;..., ; x\_{i-3}, ; x\_{i-2}, ; x\_{i-1}, ; x_i', ; x_j, ; ..., ; x\_{n}
+$$
 
 This breaks the order of the `SortedCdps` because $x_i' > x\_{i-1}$ but has a larger position.
 
