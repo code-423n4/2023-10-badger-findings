@@ -1165,39 +1165,7 @@ As we observe, in each iteration of the loop, the internal function `CdpManager.
 
 The flaw arises when the partially redeemed Cdp is reinserted while the fully redeemed Cdps haven't been removed from the sorted list yet.
 
-To make it clearer, consider the following scenario:
-In a regular flow of the redemption process, we have:
-
-1.  The `SortedCdps` list described by a sequence of `n` elements $x\_1, x\_2, ..., x_n$ in which:
-    *   $$x\_1 \geq x\_2 \geq ... \geq x_n$$
-
-2.  A redemption request fully redeems Cdps from position `i+1 -> j-1` in the sorted list. Thus, the NICR of all Cdps in that range becomes `inf = type(uint256).max`. In other words:
-    *   $$x\_{i+1} = x\_{i+2} = ... = x\_{j-1} = inf$$
-
-3.  The Cdp in position `i` is partially redeemed and updated with its NICR to $x_i'$. If the new $x_i'$ is greater than $x\_{i-1}$, it should be reinserted in a smaller position than `i-1`, assuming it should be inserted between $x\_{i-3}$ and $x\_{i-2}$. The new `SortedCdps` list right after the loop should be:
-    *   $$x\_1, ; ..., ; x\_{i-3}, ; x\_{i}', ; x\_{i-2}, ; x\_{i-1}, ; inf, ; ..., ; inf, ; x_j, ; ..., ; x_n$$
-    This means that the values passed by the sender of `_upperPartialRedemptionHint` and `_lowerPartialRedemptionHint` should be `i-2, i-3`.
-
-4.  After that, the process will execute the batch removal to remove all the Cdps that are fully redeemed, and the sorted list will be:
-    *   $$x\_1, ; ..., ; x\_{i-3}, ; x\_{i}', ; x\_{i-2}, ; x\_{i-1}, ; x_j, ; ..., ; x_n$$
-
-To disrupt this flow, the attacker can interfere in STEP 3 by passing malicious values of `_upperPartialRedemptionHint` and `_lowerPartialRedemptionHint`. In the example above, the attacker should use:
-
-*   `_upperPartialRedemptionHint = j-1`
-*   `_lowerPartialRedemptionHint = j`
-
-Since the Cdp at position `j-1` hasn't been removed yet in STEP 3, all the conditions for a valid insertion for $x\_{i}'$ will be satisfied because:
-
-*   $x\_{i}' ; > ; x\_{i-1} ; >= ; x_j$
-*   $x\_{i}' ; < ; inf ; = ; x\_{j-1}$
-
-Thus, the `SortedCdps` list will look like this after the redemption process:
-
-$$$
-x_1, ;..., ; x_{i-3}, ; x_{i-2}, ; x_{i-1}, ; x_i', ; x_j, ; ..., ; x_{n}
-$$$
-
-This breaks the order of the `SortedCdps`, because $x_i' > x\_{i-1}$ but has a larger position.
+*Note: please see scenario in warden's [original submission](https://github.com/code-423n4/2023-10-badger-findings/issues/173).*
 
 ### Impact
 
@@ -1303,15 +1271,8 @@ Instead of inserting the partially redeemed Cdp back in the for-loop, the functi
 > Additionally, I believe it's not a known issue because the known scenario that also breaks the order is from redistribution of debt and yield, which is different. This scenario allows an external attacker to interact with and manipulate the broken invariants. It has a significant impact, which will be described below.
 > 
 > 2.  An attacker can increase the NICR of a partially redeemed CDP to a very large value and place it in the wrong position. To achieve this, the attacker can calculate the redemption amount to leave the remaining debt of the partially redeemed CDP at 1. For example, if a CDP has &#36;15e18 in collateral and &#36;10e18 in debt, the attacker can calculate a partial redemption with a debt of &#36;10e18 - 1, resulting in a remaining debt of 1 and remaining collateral of 5e18 (assuming remaining collateral can bypass MIN\_NET\_STETH\_BALANCE). This manipulation causes the new NICR to become very large.<br>
-> Consider the scenario in the report. After redemption, the sortedCdps list will be:<br>
-> $$x_1, \;..., \; x_{i-3}, \; x_{i-2}, \; x_{i-1}, \; ..., \; x_i', \; x_j, \; ..., \; x_{n} $$
-> $x_{i}'$ may have a very large NICR (up to infinity), and it is the first node with ICR >= MCR because the ICR of $x_{j}$ is below MCR. Therefore, any new CDP that is opened with `_upperHint` as dummy or invalid will be placed after the CDP $x_{i}'$. This is because the `_findInsertPosition` function will find the position in ascending order if the `_prevId `parameter is dummy or invalid.You can read this [code snippet](https://github.com/code-423n4/2023-10-badger/blob/f2f2e2cf9965a1020661d179af46cb49e993cb7e/packages/contracts/contracts/SortedCdps.sol#L699-L701) to understand this flow.<br>
-> For example, when the NICR of $x_{i}'$ is very large (considered infinity), the NICR list of sortedCdps is like:<br>
-> 300%, 250%, ..., 160%, 150%, inf, 125%, 124%, ...<br>
-> When opening a CDP with a 200% NICR and `_upperHint` as dummy or invalid, the list will become:<br>
-> 300%, 250%, ..., 160%, 150%, inf, 200%, 125%, 124%, ...<br>
-> Therefore, the new CDP (200% NICR) will be inserted to a wrong position and become the first node (most right) with ICR > MCR and will be redeemed with priority, even though the NICR of that CDP is still good.<br>
-> Here is a POC of this scenario: https://gist.github.com/huuducsc/c6885a06058d56cd4f6669f3b11c8f7d
+> 
+> *Note: please see warden's [original comment](https://github.com/code-423n4/2023-10-badger-findings/issues/173#issuecomment-1841303646) for full details.*
 > 
 > 3.  Due to the above scenario, I disagree with [the statement](https://github.com/code-423n4/2023-10-badger-findings/issues/173#issuecomment-1839714678) made by @ronnyx2017: "The invariant was only temporarily broken, and whatever the attacker does during this intermediate stage will get back to the previous state."<br>
 > The attacker can open numerous new Cdps into incorrect positions using dummy `upperHint` and invalid `lowerHint` (details are described in the scenario and PoC of section 2), disrupting the order of protocols. Moreover, the attacker can front-run any opening CDP transaction by users to break the order, make it becomes the first position to be redeemed. 
@@ -1528,34 +1489,14 @@ The eBTC team needs to rethink the fee/debt redistribution to maintain the list 
 > But the finding showed that the feeSplit math is incorrect, which is a severe finding.
 
 **[rayeaster (Badger) commented](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1831082736):**
- > It is more like a precision issue using Solidity (sth like $\frac{(x -z) + (z - y)}{c} \neq \frac{x - z}{c} + \frac{z - y}{c}$) instead of a fundamental design problem. 
+ > It is more like a precision issue using Solidity instead of a fundamental design problem. 
 > 
 > The following statement is worth more thinking:
 > `we can intuitively understand that new CDPs will pay more fees than the old ones. Therefore, new cpds NICR (Nominal Individual Collateral Ratio = shares/debt) will decrease at a higher rate than old ones.`
 > 
-> Yes, **higher stake** leads to **more fees**, but it is NOT equal to **"decrease at a higher rate"**, actually the **relative** ratio of NICR between two CDPs always keep the **same** "theoretically" by the stake mechanism:
+> Yes, **higher stake** leads to **more fees**, but it is NOT equal to **"decrease at a higher rate"**, actually the **relative** ratio of NICR between two CDPs always keep the **same** "theoretically" by the stake mechanism.
 > 
-> - Suppose `totalStakeSnapshot` is $S_{n}$ which is not changed by split fee claim
-> - At time `T0`, `totalCollateralSnapshot` is $C_{n0}$ 
-> - At time `T1`, a $CDP_{1}$ is created with initial collateral share `c` and debt `d` thus its stake is $s_{1}=\frac{c * S_{n}}{C_{n0}}$
-> - At time `T2`, a split fee claim happens and `totalCollateralSnapshot` is changed to $C_{n1}$, **note that** $C_{n1} < C_{n0}$ and $C_{n0} - C_{n1} = S_{n} * \Delta{P_{1}}$ where $\Delta{P_{1}}$ is the delta change of fee per stake unit
-> - At time `T3`, another $CDP_{2}$ is created with the same collateral share `c` and debt `d` but now its stake is $s_{2}=\frac{C * S_n}{C_{n1}} > s_{1}$
-> - Now `NICR` of $CDP_{1}$ is $\frac{c - s_{1} * \Delta{P_{1}}}{d}$ and `NICR` of $CDP_{2}$ is $\frac{c}{d} > NICR_{1}$, their `NICR` ratio $r_{1}$ is $\frac{c - s_{1} * \Delta{P_{1}}}{c}$
-> - At time `T4` (maybe after a long time), a split fee claim happens again and $\Delta{P_{2}}$ is the delta change of fee per stake unit for this time
-> - Now `NICR` of $CDP_{1}$ is $\frac{c - s_{1} * \Delta{P_{1}} - s_{1} * \Delta{P_{2}}}{d}$ and `NICR` of $CDP_{2}$ is $\frac{c - s_{2} * \Delta{P_{2}}}{d}$, so their `NICR` ratio $r_{2}$ is now $\frac{c - s_{1} * \Delta{P_{1}} - s_{1} * \Delta{P_{2}}}{c - s_{2} * \Delta{P_{2}}}$
-> - Let us prove that $r_{2}=r_{1}$ in theory
-> 
-> If $\frac{c - s_{1} * \Delta{P_{1}} - s_{1} * \Delta{P_{2}}}{c - s_{2} * \Delta{P_{2}}} = \frac{c - s_{1} * \Delta{P_{1}}}{c} \Rightarrow $ 
-> 
-> $(c - s_{1} * \Delta{P_{1}}) * (c - s_{2} * \Delta{P_{2}}) = c * (c - s_{1} * \Delta{P_{1}} - s_{1} * \Delta{P_{2}}) \Rightarrow $
-> 
-> $c^2 - c * s_{2} * \Delta{P_{2}} - c * s_{1} * \Delta{P_{1}} + s_{1} * s_{2} * \Delta{P_{1}} * \Delta{P_{2}} = c^2 - c * s_{1} * \Delta{P_{1}} - c * s_{1} * \Delta{P_{2}} \Rightarrow $
-> 
-> $s_{1} * s_{2} * \Delta{P_{1}} = c * (s_{2} - s_{1}) \Rightarrow \frac{s_{1}}{c} * \Delta{P_{1}} = 1 - \frac{s_{1}}{s_{2}} \Rightarrow$
-> 
-> $\frac{S_{n}}{C_{n0}} * \Delta{P_{1}} = 1 - \frac{C_{n1}}{C_{n0}} \Rightarrow S_{n} * \Delta{P_{1}} = C_{n0} - C_{n1} $ 
-> 
-> Proved
+> *Note: please see sponsor's [original comment](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1831082736) for full details regarding this.*
 > 
 > If we could manually `syncAccounting` for the first CDP along the poc test path (i.e., always sync its collateral for every index increase in the loop) or **simply** set the loop number to 1000 instead of 100, the list order will not break at the end of the poc test. 
 > 
@@ -1691,22 +1632,15 @@ The eBTC team needs to rethink the fee/debt redistribution to maintain the list 
 > 
 > It helps to spark an interesting idea. Do you think it would help to use sth like `cdpManager.getSyncedNominalICR(firstCdpId) * 1e18 / cdpManager.getSyncedNominalICR(lastCdpId)` to compare the NICR as an additional check?
 > 
-> I mean we could say $NICR_{1}$ is larger than $NICR_{2}$ **only if** the following two conditions are satisfied **at the same time**:
-> - $NICR_{1} > NICR_{2}$
-> - $\frac{NICR_{1} * 1e18}{NICR_{2}} > 1e18$
+> *Note: please see sponsor's [original comment](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1833756837) for full details.*
 
 **[ronnyx2017 (Judge) commented](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1833965334):**
  > Aha, I think this check may be idealistic. The poc we are currently discussing only involves a single rounding situation, but the actual scenario may be much more complex. Each syncAccounting after a rebase introduces rounding, but I believe this will actually alleviate the impact of the issue.
 
 **[rayeaster (Badger) commented](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1835315439):**
- > If we add bad debt redistribution into the play, the ratio of NICR between CDPs would change but will **NOT** go to the extent that reverse the ordering, theoretically:
+ > If we add bad debt redistribution into the play, the ratio of NICR between CDPs would change but will **NOT** go to the extent that reverse the ordering.
 > 
-> - Following above [math derivation setup](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1831082736), suppose right after $CDP_{2}$ is created at time T3, there is a liquidation with some bad debt to be redistributed and introduce a $\Delta{d_{1}}$ increase for `systemDebtRedistributionIndex`
-> - Now the `NICR` of $CDP_{1}$ is $\frac{c - s_{1} * \Delta{P_{1}}}{d + s_{1} * \Delta{d_{1}}}$, and `NICR` of $CDP_{2}$ is $\frac{c}{d + s_{2} * \Delta{d_{1}}}$, let us prove that their NICR ratio  still keep the ordering:
-> 
-> $ratio_{NICR} = \frac{c - s_{1} * \Delta{P_{1}}}{c} * \frac{d + s_{2} * \Delta{d_{1}}}{d + s_{1} * \Delta{d_{1}}} = \frac{s_{1}}{s_{2}} * \frac{d + s_{2} * \Delta{d_{1}}}{d + s_{1} * \Delta{d_{1}}} = \frac{s_{1} * s_{2} * \Delta{d_{1}} + s_{1} * d}{s_{1} * s_{2} * \Delta{d_{1}} + s_{2} * d} \lt 1$ 
-> 
-> Proved
+> *Note: please see sponsor's [original comment](https://github.com/code-423n4/2023-10-badger-findings/issues/155#issuecomment-1835315439) for full details.*
 > 
 > So the whole story would be: 
 > - Split fee distribution would keep the NICR ratio the **same**
